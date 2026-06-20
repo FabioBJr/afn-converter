@@ -55,9 +55,8 @@ function lerConjunto(texto) {
 }
 
 function gerarChave(arrayEstados) {
-    return Array.from(arrayEstados).sort((a, b) => a - b).join(',');
+    return Array.from(arrayEstados).sort().join(',');
 }
-
 function calcularFechoEpsilon(listaEstados, afn, temEpsilon) {
     if (!temEpsilon) return listaEstados; 
     
@@ -114,7 +113,7 @@ function converterAFNparaAFD() {
 
         // Lendo as transicoes
         alfabeto.forEach((simbolo, symIndex) => {
-            afn[estadoAtual][simbolo] = lerConjunto(inputs[symIndex].value);
+            afn[estadoAtual][simbolo] = lerConjunto(inputs[symIndex].value); 
         });
 
         if (temEpsilon) {
@@ -203,13 +202,13 @@ function desenharTabelaAFD(afd, alfabeto, inicialKey, finaisSet) {
         if (estado === inicialKey) prefixo += '→ ';
         if (finaisSet.has(estado)) prefixo += '* ';
         
-        let nomeVisual = estado.includes(',') ? `{${estado}}` : (estado === '' ? '∅' : estado);
+        let nomeVisual = (estado === '' ? '∅' : `{${estado}}`);
         
         html += `<tr><td><strong>${prefixo}${nomeVisual}</strong></td>`;
 
         for (const simbolo of alfabeto) {
             let destino = afd[estado][simbolo];
-            let destinoVisual = destino === '∅' ? '∅' : (destino.includes(',') ? `{${destino}}` : destino);
+            let destinoVisual = destino === '∅' ? '∅' : `{${destino}}`;
             html += `<td>${destinoVisual}</td>`;
         }
 
